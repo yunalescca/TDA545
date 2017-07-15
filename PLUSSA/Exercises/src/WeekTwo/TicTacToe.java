@@ -13,10 +13,13 @@ import java.util.Scanner;
 
 public class TicTacToe {
 
+    public enum Winner {
+        PLAYER_ONE, PLAYER_TWO, DRAW, NA;
+    }
+
     private Random random;
     private Scanner scanner;
     private String[] players;
-    private char[] marks, boardArr;
     private char[][] boardMatrix;
     private boolean playerOneTurn = true;
 
@@ -32,9 +35,8 @@ public class TicTacToe {
     private void init(){
         random = new Random();
         scanner = new Scanner(System.in);
-        players = new String[] {"Player 1", "Player 2"};
-        marks = new char[] {'X', 'O'}; //Player 1 and Player 2 respectively
-        boardArr = new char[] {'-', '-', '-', '-', '-', '-', '-', '-', '-'};
+        players = new String[] {"Player 1", "Player 2"}; //TODO: name players? (not used but keep for now)
+        char[] boardArr = new char[]{'-', '-', '-', '-', '-', '-', '-', '-', '-'};
 
         boardMatrix = toMatrix(boardArr);
     }
@@ -85,6 +87,12 @@ public class TicTacToe {
     private void update(int row, int col, char mark){
         boardMatrix[row][col] = mark;
         displayBoard();
+
+        boardStatus();
+    }
+
+    private Winner boardStatus(){
+        char current
     }
 
     /**

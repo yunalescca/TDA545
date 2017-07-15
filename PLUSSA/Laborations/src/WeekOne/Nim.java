@@ -30,7 +30,6 @@ public class Nim {
                 "inputting a 0 into the field. Alright? Let's play!");
 
         int input, computer;
-        boolean playerWon = true; //TODO: remove?
 
         while (true) {
 
@@ -52,7 +51,7 @@ public class Nim {
                     System.out.println("Player took: " + input + " coins");
 
                     if (input ==  currentCoins) {
-                        endGame(playerWon);
+                        endGame(true);
                         break;
                     }
                     currentCoins = currentCoins - input;
@@ -66,9 +65,9 @@ public class Nim {
                 System.out.println("Computer took: " + computer + " coins");
 
                 if (computer == currentCoins) {
-                    endGame(!playerWon);
+                    endGame(false);
                     break;
-                    
+
                 } else if (computer > currentCoins){
                     computer = currentCoins;
                 }
