@@ -13,8 +13,9 @@ import java.util.Scanner;
 
 public class TicTacToe {
 
+
     public enum Winner {
-        PLAYER_ONE, PLAYER_TWO, DRAW, NA;
+        PLAYER_ONE, PLAYER_TWO, DRAW, NA
     }
 
     private Random random;
@@ -26,10 +27,7 @@ public class TicTacToe {
 
     public TicTacToe(){
         init();
-
         program();
-
-
     }
 
     private void init(){
@@ -74,10 +72,10 @@ public class TicTacToe {
                 inputCol = scanner.nextInt() - 1;
 
                 if(boardMatrix[inputRow][inputCol] != '-'){
-                    System.out.println("This spot is not empty!"); //TODO: borde update kolla det här? DRY-kod
+                    System.out.println("This spot is not empty!"); //TODO: possibly in update()
 
                 } else {
-                    update(inputRow, inputCol, 'O');
+                    update(inputRow, inputCol, 'O'); //TODO: maybe update() should check whose turn it is and then fill the board accordingly
                     playerOneTurn = true;
                 }
             }
@@ -88,11 +86,80 @@ public class TicTacToe {
         boardMatrix[row][col] = mark;
         displayBoard();
 
-        boardStatus();
+        Winner status = boardStatus();
+
+        if (status != Winner.NA) {
+            gameOver(status);
+        }
     }
 
-    private Winner boardStatus(){
-        char current
+    /**
+     * Checks the status of the game board to see if there exists a winner
+     * @return Player 1 or Player 2 if either has won, Draw if no one has won or NA if the game is not finished
+     */
+    private Winner boardStatus(){ //TODO: create temp variable so I don't have to repeat code?
+
+        char current = boardMatrix[1][1]; //the middle
+
+        if(current == boardMatrix[1][0] && current == boardMatrix[1][2] //horizontally
+                || current == boardMatrix[0][1] && current == boardMatrix[2][1] //vertically
+                || current == boardMatrix[0][0] && current == boardMatrix[2][2] //diagonally
+                || current == boardMatrix[0][2] && current == boardMatrix[2][0]) {
+
+            if(current == 'X'){
+                return Winner.PLAYER_ONE;
+            } else if (current == 'O'){
+                return Winner.PLAYER_TWO;
+            }
+        }
+
+        current = boardMatrix[0][0]; //top left corner
+
+        if(current == boardMatrix[0][1] && current == boardMatrix[0][2]
+                || current == boardMatrix[1][0] && current == boardMatrix[2][0]) {
+
+            if(current == 'X'){
+                return Winner.PLAYER_ONE;
+            } else if (current == 'O'){
+                return Winner.PLAYER_TWO;
+            }
+        }
+
+        current = boardMatrix[2][2]; //bottom right corner
+
+        if(current == boardMatrix[2][0] && current == boardMatrix[2][1]
+                || current == boardMatrix[0][2] && current == boardMatrix[1][2]){
+
+            if(current == 'X'){
+                return Winner.PLAYER_ONE;
+            } else if (current == 'O'){
+                return Winner.PLAYER_TWO;
+            }
+        }
+
+        if(!isEmpty()) {
+            return Winner.DRAW;
+        } else {
+            return Winner.NA;
+        }
+
+
+
+    }
+
+    //TODO: improve
+    private void gameOver(Winner status){
+
+        if(status == Winner.DRAW) {
+            System.out.println("Draw!");
+        } else if (status == Winner.PLAYER_ONE) {
+            System.out.println("Congratulations Player 1!");
+        } else {
+            System.out.println("Congratulations Player 2!");
+        }
+
+
+        System.exit(0);
     }
 
     /**
@@ -121,6 +188,28 @@ public class TicTacToe {
         }
 
         return matrix;
+    }
+
+    /**
+     * Checks if the gaming board contains blank spaces
+     * @return true if there exist blank space, else false
+     */
+    private boolean isEmpty() {
+
+        boolean empty = false;
+
+        for(int i = 0; i < boardMatrix.length; i++) {
+
+            for(int j = 0; j < boardMatrix.length; j++) {
+
+                if(boardMatrix[i][j] == '-') {
+                    empty = true;
+                }
+
+            }
+
+        }
+        return empty;
     }
 
     /**
