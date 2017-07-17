@@ -1,10 +1,12 @@
 package WeekThree;
 
 import java.util.Arrays;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Created by Yunalescca on 2017-07-16.
- * Basic exercise covering some simple array operations
+ * Basic exercises covering some simple array operations
  */
 public class ArrayPuzzlers {
 
@@ -18,7 +20,7 @@ public class ArrayPuzzlers {
         System.out.println(Arrays.toString(arr1));  //[6, 7, 8, 1, 2, 3, 4, 5]
 
         System.out.println(Arrays.toString(arr2));   // [1, 2, 2, 3, 3]
-        System.out.println(Arrays.toString(removeDupl(arr2)));  // [1, 2, 3]
+        System.out.println(Arrays.toString(removeDuplicate(arr2)));  // [1, 2, 3]
         System.out.println(Arrays.toString(arr2));  // [1, 2, 2, 3, 3]
     }
 
@@ -52,8 +54,20 @@ public class ArrayPuzzlers {
 
     // Remove all duplicates from arr (original unchanged, copy created)
     // NOTE: We assume the array is sorted in ascending order
-    private int[] removeDupl(int[] arr) {
-        return null;
+    private int[] removeDuplicate(int[] arr) {
+
+        Set<Integer> set = new TreeSet<>();
+        int[] result = new int[arr.length];
+
+        int index = 0;
+
+        for (int i: arr) {
+            if (set.add(i)) {
+                result[index++] = i;
+            }
+        }
+
+        return Arrays.copyOf(result, index);
     }
 
     public static void main(String[] args) {
